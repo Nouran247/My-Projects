@@ -5,6 +5,13 @@ import random
 
 pygame.font.init()  # it will control the font of the text in the game
 
+# Initialize the mixer module
+pygame.init()
+
+# Load the audio file
+# audio_file = "laser_sound_effect.wav"  # Adjust the file name and path as needed
+# pygame.mixer.music.load(audio_file)
+
 # To adjust the window of the game and it's caption
 WIDTH, HEIGHT = 600, 580
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -30,6 +37,10 @@ GREEN_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_green.png"))
 BG = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
 # we used pygame.transform.scale method to control the width and the height
 # of the background to be the full of game's screen
+
+# importing sound effect
+ship_laser_sound = pygame.mixer.Sound(r"C:\Users\NoteBook\Desktop\Space_game\assets\laser_sound_effect.wav")
+# C:\Users\NoteBook\Desktop\Space_game\assets\laser_sound_effect.wav
 
 
 # initializing the class of the lasers
@@ -123,6 +134,7 @@ class Player(Ship):
     def move_lasers(self, vel, objs):
         self.cooldown()  # checking the cooldown function first
         for laser in self.lasers:
+            # ship_laser_sound.play()
             laser.move(vel)
             if laser.off_screen(HEIGHT):
                 self.lasers.remove(laser)  # remove the laser which is outside the window
@@ -266,6 +278,7 @@ def main():
                 or keys[pygame.K_s] and player.y + player_vel + player.get_height() + 15 < HEIGHT:
             player.y += player_vel  # the ship will move pixels as in player_vel to the button
         if keys[pygame.K_SPACE]:
+            ship_laser_sound.play()  # play the laser sound
             player.shoot()  # calling the shooting method
 
         for enemy in enemies[:]:      # each enemy will appear and move by enemy_vel value
